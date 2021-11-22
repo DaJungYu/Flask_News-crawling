@@ -69,6 +69,7 @@ def parse_itnews(itnews_headline, itnews, date_today):
             news_image = news.find("dt").find("img")["src"].split('?type')[0] 
         except: 
             print("이미지없음")
+            news_image="https://github.com/DaJungYu/Flask_News-crawling/blob/master/crawling/static/default.png?raw=true"
         
         description=news.find("dd").find("span","lede").get_text().strip()
         link= news.find_all("a")[a_inx]["href"]
@@ -100,6 +101,7 @@ def parse_itnews(itnews_headline, itnews, date_today):
             news_image = news.find("dt").find("img")["src"].split('?type')[0] 
         except: 
             print("이미지없음")
+            news_image="https://github.com/DaJungYu/Flask_News-crawling/blob/master/crawling/static/default.png?raw=true"
         description=news.find("dd").find("span","lede").get_text().strip()
         link= news.find_all("a")[a_inx]["href"]
         # timestamp=datetime.strptime(str(i),'%Y-%m-%d').strftime('%Y-%m-%d')
@@ -192,7 +194,7 @@ if __name__ == "__main__":
 
     # db insert
     for raw_data in result_array_if:
-
+        print('raw_data[image]:',raw_data['image'])
         try:
             rows_id=session.query(NewsSchema2.id).all()
         except: 
@@ -208,7 +210,8 @@ if __name__ == "__main__":
         # 이미지 저장
         # last id 업데이트 (+=1)
         last_id=session.query(NewsSchema2.id).count()
-        print('last_id:',last_id)
+        print('last_id:',last_id)    
+
         with urlopen(raw_data['image']) as f:
             # with open(f'./image/{date_today}_{index+11}.jpg','ab') as h: # 이미지 + 사진번호 + 확장자 jpg
             with open(f'./static/image/{last_id+1}.jpg', 'ab') as h:
