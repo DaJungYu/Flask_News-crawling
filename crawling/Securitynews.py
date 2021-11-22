@@ -72,7 +72,12 @@ def security_news():
       news_date = news.find('div', attrs = {'archive-item-component__byline'}).find('time').get_text()
       # timestamp=time.mktime(datetime.strptime(news_date,'%B %d, %Y').timetuple())
       timestamp = datetime.strptime(news_date,'%B %d, %Y')
-      image=news.find('img')["src"]
+      try: 
+          image=news.find('img')["src"]
+      except: 
+          print("이미지없음")
+          image="https://github.com/DaJungYu/Flask_News-crawling/blob/master/crawling/static/default.png?raw=true"
+      
       # with urlopen(image) as f:
       #   with open(f'./image_sec/{news_id+1}.jpg','ab') as h: # 이미지 + 사진번호 + 확장자 jpg
       #     img_file = f.read() #이미지 읽기
